@@ -444,25 +444,51 @@ export default function App() {
     );
   };
 
+  const fallbackCopyText = (text: string) => {
+    try {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      showToastMsg(
+        gender === 'female'
+          ? 'تم نسخ رابط المقلب! ابعتيه لصحابك في جروب البنات 😈'
+          : 'تم نسخ رابط المقلب! ابعته لصحابك في جروب الواتساب 😈',
+        '📋'
+      );
+    } catch {
+      showToastMsg('تم نسخ الرابط!', '📋');
+    }
+  };
+
   const handleShareLink = () => {
+    const shareUrl = 'https://1111wish.vercel.app/';
     const shareText =
       gender === 'female'
-        ? `في شخص مسجل رقمك بعتلك رسالة سرية بمناسبة 11/11 ومستنيكي تفتحيها 💌👀 ادخلي شوفيها من هنا: ${window.location.href}`
-        : `في شخص مسجل رقمك بعتلك رسالة سرية بمناسبة 11/11 ومستنيك تفتحها 💌👀 ادخل شوفها من هنا: ${window.location.href}`;
+        ? `في شخص مسجل رقمك بعتلك رسالة سرية بمناسبة 11/11 ومستنيكي تفتحيها 💌👀 ادخلي شوفيها من هنا: ${shareUrl}`
+        : `في شخص مسجل رقمك بعتلك رسالة سرية بمناسبة 11/11 ومستنيك تفتحها 💌👀 ادخل شوفها من هنا: ${shareUrl}`;
 
-    navigator.clipboard
-      .writeText(shareText)
-      .then(() => {
-        showToastMsg(
-          gender === 'female'
-            ? 'تم نسخ رابط المقلب! ابعتيه لصحابك في جروب البنات 😈'
-            : 'تم نسخ رابط المقلب! ابعته لصحابك في جروب الواتساب 😈',
-          '📋'
-        );
-      })
-      .catch(() => {
-        showToastMsg('تم نسخ الرابط!', '📋');
-      });
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard
+        .writeText(shareText)
+        .then(() => {
+          showToastMsg(
+            gender === 'female'
+              ? 'تم نسخ رابط المقلب! ابعتيه لصحابك في جروب البنات 😈'
+              : 'تم نسخ رابط المقلب! ابعته لصحابك في جروب الواتساب 😈',
+            '📋'
+          );
+        })
+        .catch(() => {
+          fallbackCopyText(shareText);
+        });
+    } else {
+      fallbackCopyText(shareText);
+    }
   };
 
   const handleRestart = () => {
