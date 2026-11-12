@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رسالة سرية بمناسبة 11/11 💌</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                    },
+                    colors: {
+                        romance: {
+                            50: '#fff1f2',
+                            100: '#ffe4e6',
+                            200: '#fecdd3',
+                            300: '#fda4af',
+                            400: '#fb7185',
+                            500: '#f43f5e',
+                            600: '#e11d48',
+                            700: '#be123c',
+                        }
+                    },
+                    animation: {
+                        'float': 'floating 3s ease-in-out infinite',
+                        'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+                        'envelope-open': 'openEnvelope 1.2s forwards cubic-bezier(0.4, 0, 0.2, 1)',
+                    },
+                    keyframes: {
+                        floating: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-12px)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { opacity: '0.8', transform: 'scale(1)' },
+                            '50%': { opacity: '1', transform: 'scale(1.05)', filter: 'drop-shadow(0 0 15px rgba(244,63,94,0.6))' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            font-family: 'Cairo', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            background: linear-gradient(135deg, #ffeef2 0%, #ffd6e0 50%, #fed7e2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .heart-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            animation: rise 6s linear infinite;
+        }
+        @keyframes rise {
+            0% {
+                transform: translateY(105vh) scale(0.6) rotate(0deg);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1.2) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        /* Custom Toast */
+        #toast {
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+    </style>
+</head>
+<body class="text-slate-800 flex flex-col items-center justify-center p-4 relative min-h-screen">
+
+    <!-- Floating Background Hearts -->
+    <div id="hearts-container" class="absolute inset-0 overflow-hidden pointer-events-none"></div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed top-5 z-50 transform -translate-y-24 opacity-0 bg-slate-900 text-white px-6 py-3 rounded-2xl shadow-2xl font-bold flex items-center gap-2 text-sm md:text-base border border-slate-700 pointer-events-none">
+        <span id="toast-icon">💬</span>
+        <span id="toast-msg">رسالة تجريبية</span>
+    </div>
+
+    <!-- MAIN APP WRAPPER -->
+    <main class="w-full max-w-lg mx-auto relative z-10">
+
+        <!-- ================= STAGE 1: THE HOOK ================= -->
+        <section id="stage-hook" class="bg-white/90 backdrop-blur-md p-6 sm:p-8 rounded-3xl shadow-2xl border-2 border-romance-200 text-center relative overflow-hidden transition-all duration-500">
+            <!-- Glowing 11:11 Clock Badge -->
+            <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-romance-100 text-romance-600 font-extrabold text-lg sm:text-xl border border-romance-300 shadow-sm animate-pulse-glow mb-4">
+                <span class="animate-ping inline-flex h-2 w-2 rounded-full bg-romance-500"></span>
+                <span>✨ 11:11 PM ✨</span>
+            </div>
+
+            <div class="text-5xl sm:text-6xl my-2 animate-float">💌</div>
+
+            <h1 class="text-2xl sm:text-3xl font-black text-slate-800 leading-snug mb-3 mt-2">
+                في شخص مسجل رقمك بعتلك رسالة سرية بمناسبة <span class="text-romance-600 underline decoration-wavy decoration-romance-300">11/11</span> ومستنيك تفتحها!
+            </h1>
+            <p class="text-slate-600 text-sm sm:text-base mb-6 font-medium">
+                الرسالة متشفرة ومحفوظة مخصوص عشانك.. هل قلبك جاهز يشوف مين مهتم بيك وبيفكر فيك دلوقت؟
+            </p>
+
+            <!-- Name Input Field -->
+            <div class="space-y-4 mb-6 text-right">
+                <label for="user-name" class="block text-sm font-bold text-slate-700 mr-1">اكتب اسمك الأول:</label>
+                <input type="text" id="user-name" placeholder="اسمك إيه يا بطل؟" maxlength="25"
+                    class="w-full px-4 py-3.5 rounded-2xl border-2 border-romance-200 focus:border-romance-500 focus:outline-none focus:ring-4 focus:ring-romance-100 text-lg transition duration-200 text-slate-800 font-bold placeholder-slate-400 bg-pink-50/30">
+            </div>
+
+            <!-- Evasive / Trigger Button Area -->
+            <div id="button-playground" class="relative w-full h-20 flex items-center justify-center">
+                <button id="evasive-btn" type="button"
+                    class="px-8 py-4 bg-gradient-to-r from-romance-500 via-pink-500 to-rose-600 text-white font-black text-lg sm:text-xl rounded-2xl shadow-xl hover:shadow-romance-300/80 active:scale-95 transition-all duration-200 border-2 border-white flex items-center gap-2 cursor-pointer select-none">
+                    <span>عرض رسالة الاهتمام</span>
+                    <span class="text-xl">💌</span>
+                </button>
+            </div>
+
+            <!-- Snarky Evade Counter / Bubble -->
+            <div id="evade-bubble" class="h-6 text-xs sm:text-sm font-bold text-romance-600 transition-opacity duration-200 opacity-0 mt-3">
+                <!-- Text injected via JS -->
+            </div>
+        </section>
+
+        <!-- ================= STAGE 2: THE SATIRICAL CAPTCHA MODAL ================= -->
+        <div id="captcha-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
+            <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl border-4 border-romance-300 transform scale-90 transition-transform duration-300" id="captcha-content">
+                <div class="flex items-center justify-between border-b pb-3 mb-4">
+                    <span class="text-xs font-black uppercase tracking-wider text-slate-400 bg-slate-100 px-3 py-1 rounded-full">اختبار إنساني ساخر</span>
+                    <span class="text-xl">🤖❤️</span>
+                </div>
+
+                <h3 class="text-lg sm:text-xl font-black text-slate-800 leading-snug mb-1">
+                    تأكيد عدم الجفاف العاطفي:
+                </h3>
+                <p class="text-sm text-slate-600 font-medium mb-4">
+                    اضغط على <span class="font-extrabold text-romance-600">كل الصور</span> التي تحتوي على <span class="underline">شخص بيحبك بجد</span>:
+                </p>
+
+                <!-- Grid of 6 items -->
+                <div class="grid grid-cols-3 gap-3 mb-5" id="captcha-grid">
+                    <!-- Item 1: TV -->
+                    <button type="button" data-valid="false" data-name="التلفزيون" class="captcha-tile group relative flex flex-col items-center justify-center p-3 rounded-2xl border-2 border-slate-200 hover:border-slate-300 bg-slate-50 transition active:scale-95">
+                        <span class="text-3xl sm:text-4xl mb-1">📺</span>
+                        <span class="text-xs font-bold text-slate-700">شاشة تليفزيون</span>
+                        <div class="check-badge hidden absolute top-1 left-1 bg-romance-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">✓</div>
+                    </button>
+                    <!-- Item 2: Hawawshi -->
+                    <button type="button" data-valid="true" data-name="الحواوشي" class="captcha-tile group relative flex flex-col items-center justify-center p-3 rounded-2xl border-2 border-slate-200 hover:border-slate-300 bg-slate-50 transition active:scale-95">
+                        <span class="text-3xl sm:text-4xl mb-1">🥙</span>
+                        <span class="text-xs font-bold text-slate-700">رغيف حواوشي</span>
+                        <div class="check-badge hidden absolute top-1 left-1 bg-romance-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">✓</div>
+                    </button>
+                    <!-- Item 3: Cat -->
+                    <button type="button" data-valid="false" data-name="القطة" class="captcha-tile group relative flex flex-col items-center justify-center p-3 rounded-2xl border-2 border-slate-200 hover:border-slate-300 bg-slate-50 transition active:scale-95">
+                        <span class="text-3xl sm:text-4xl mb-1">🐱</span>
+                        <span class="text-xs font-bold text-slate-700">صورة قطة</span>
+                        <div class="check-badge hidden absolute top-1 left-1 bg-romance-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">✓</div>
+                    </button>
+                    <!-- Item 4: Blanket -->
+                    <button type="button" data-valid="true" data-name="البطانية" class="captcha-tile group relative flex flex-col items-center justify-center p-3 rounded-2xl border-2 border-slate-200 hover:border-slate-300 bg-slate-50 transition active:scale-95">
+                        <span class="text-3xl sm:text-4xl mb-1">🛌</span>
+                        <span class="text-xs font-bold text-slate-700">بطانية دافية</span>
+                        <div class="check-badge hidden absolute top-1 left-1 bg-romance-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">✓</div>
+                    </button>
+                    <!-- Item 5: Tea with milk -->
+                    <button type="button" data-valid="true" data-name="الشاي بلبن" class="captcha-tile group relative flex flex-col items-center justify-center p-3 rounded-2xl border-2 border-slate-200 hover:border-slate-300 bg-slate-50 transition active:scale-95">
+                        <span class="text-3xl sm:text-4xl mb-1">☕</span>
+                        <span class="text-xs font-bold text-slate-700">كوباية شاي بلبن</span>
+                        <div class="check-badge hidden absolute top-1 left-1 bg-romance-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">✓</div>
+                    </button>
+                    <!-- Item 6: Chips -->
+                    <button type="button" data-valid="true" data-name="الشيبسي" class="captcha-tile group relative flex flex-col items-center justify-center p-3 rounded-2xl border-2 border-slate-200 hover:border-slate-300 bg-slate-50 transition active:scale-95">
+                        <span class="text-3xl sm:text-4xl mb-1">🍟</span>
+                        <span class="text-xs font-bold text-slate-700">كيس شيبسي</span>
+                        <div class="check-badge hidden absolute top-1 left-1 bg-romance-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">✓</div>
+                    </button>
+                </div>
+
+                <!-- Error notice in captcha -->
+                <div id="captcha-error" class="hidden text-xs text-rose-600 font-bold bg-rose-50 border border-rose-200 rounded-xl p-2.5 mb-4 text-center"></div>
+
+                <div class="flex gap-2">
+                    <button id="verify-captcha-btn" class="w-full py-3.5 bg-romance-600 hover:bg-romance-700 active:scale-98 text-white font-extrabold rounded-2xl text-base transition shadow-md">
+                        تأكيد الإجابة وتفكيك التشفير 🔓
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= STAGE 3: THE DRAMATIC FAKE PROGRESS ================= -->
+        <section id="stage-loading" class="hidden bg-white/95 backdrop-blur-md p-8 rounded-3xl shadow-2xl border-2 border-romance-200 text-center transition-all duration-500">
+            <div class="relative w-28 h-28 mx-auto mb-6 flex items-center justify-center">
+                <div class="absolute inset-0 bg-romance-100 rounded-full animate-ping opacity-60"></div>
+                <div class="w-24 h-24 bg-gradient-to-tr from-romance-500 to-pink-400 rounded-full flex items-center justify-center shadow-lg text-4xl text-white animate-pulse">
+                    ❤️
+                </div>
+            </div>
+
+            <h2 class="text-xl sm:text-2xl font-black text-slate-800 mb-2">جاري استخراج رسالة 11/11...</h2>
+            <div id="progress-status" class="text-slate-600 font-bold text-sm sm:text-base min-h-[48px] flex items-center justify-center px-4 mb-5">
+                جاري فحص سجل المكالمات بحثاً عن أي بني آدم سأل عليك...
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="w-full bg-slate-100 rounded-full h-4 overflow-hidden border border-slate-200 p-0.5 mb-2 shadow-inner">
+                <div id="progress-fill" class="bg-gradient-to-r from-romance-400 via-pink-500 to-rose-600 h-full rounded-full w-0 transition-all duration-300"></div>
+            </div>
+            <div class="flex justify-between items-center text-xs font-black text-slate-400 px-1">
+                <span>فحص المشاعر العاطفية</span>
+                <span id="progress-percent">0%</span>
+            </div>
+        </section>
+
+        <!-- ================= STAGE 4: THE REVEAL (ENVELOPE) ================= -->
+        <section id="stage-reveal" class="hidden bg-white/95 backdrop-blur-md p-6 sm:p-8 rounded-3xl shadow-2xl border-2 border-romance-200 text-center transition-all duration-500">
+            <!-- Wax Envelope Graphic -->
+            <div class="relative max-w-sm mx-auto mb-6 pt-2">
+                <div class="bg-gradient-to-b from-amber-100 to-amber-50 border-2 border-amber-300 rounded-2xl p-6 shadow-md relative text-right">
+                    <!-- Red Stamp Top-Right -->
+                    <div class="absolute -top-3 -right-3 bg-red-600 text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow border-2 border-white rotate-6">
+                        سري وعاجل للغاية ⚠️
+                    </div>
+
+                    <div class="border-b-2 border-dashed border-amber-300 pb-3 mb-4 text-center">
+                        <span class="text-3xl">📜</span>
+                        <h3 class="text-lg font-black text-amber-900 mt-1">الرسالة المنتظرة ليوم 11/11</h3>
+                    </div>
+
+                    <!-- Personalized letter content strictly following request -->
+                    <p id="letter-content" class="text-slate-800 text-base sm:text-lg font-bold leading-relaxed mb-4 text-justify">
+                        <!-- Populated by JS -->
+                    </p>
+
+                    <div class="text-left text-xs font-black text-amber-800 border-t border-amber-200 pt-3 flex justify-between items-center">
+                        <span class="text-red-700">المرسل: الحقيقة المرة 🪓</span>
+                        <span>الساعة: 11:11 م</span>
+                    </div>
+                </div>
+            </div>
+
+            <button id="claim-cert-btn" class="w-full py-4 bg-gradient-to-r from-amber-600 via-rose-600 to-romance-600 text-white font-black text-lg rounded-2xl shadow-xl hover:shadow-rose-400/50 active:scale-95 transition-all flex items-center justify-center gap-2">
+                <span>استلم شهادة الصمود الرسمية</span>
+                <span class="text-2xl">📜</span>
+            </button>
+        </section>
+
+        <!-- ================= STAGE 5: THE SHAREABLE CERTIFICATE ================= -->
+        <section id="stage-certificate" class="hidden bg-white/95 backdrop-blur-md p-6 sm:p-8 rounded-3xl shadow-2xl border-2 border-romance-200 text-center transition-all duration-500">
+            <h2 class="text-2xl font-black text-slate-800 mb-1">مبروك التتويج يا بطل! 🎖️</h2>
+            <p class="text-slate-500 text-xs sm:text-sm font-bold mb-4">تم اعتماد موقفك البطولي رسمياً في سجلات الجفاف العاطفي</p>
+
+            <!-- Canvas Element for drawing and downloading high-res image -->
+            <div class="w-full overflow-hidden rounded-2xl shadow-xl border-4 border-slate-800 bg-amber-50 mb-6 flex justify-center">
+                <canvas id="cert-canvas" width="800" height="920" class="w-full max-w-sm h-auto block"></canvas>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="space-y-3">
+                <button id="save-img-btn" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-base rounded-2xl shadow-lg transition active:scale-95 flex items-center justify-center gap-2">
+                    <span>حفظ الكارت للستوري (Download PNG)</span>
+                    <span class="text-xl">📸</span>
+                </button>
+
+                <button id="share-link-btn" class="w-full py-3.5 bg-romance-600 hover:bg-romance-700 text-white font-black text-base rounded-2xl shadow-lg transition active:scale-95 flex items-center justify-center gap-2">
+                    <span>ابعت لصحابك (Copy Troll Link)</span>
+                    <span class="text-xl">🔗</span>
+                </button>
+
+                <button id="restart-btn" class="w-full py-2.5 text-slate-600 hover:text-slate-900 font-bold text-sm rounded-xl transition">
+                    🔄 جرّب باسم تاني واصطاد صاحبك
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Copyright / Satirical Disclaimer -->
+    <footer class="mt-8 text-center text-xs text-slate-500 font-semibold relative z-10">
+        يوم 11/11 الساخر • معمول بكل حب للسناجل والناس اللي نايمة تحت البطانية 🛋️
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Sound synthesis using Web Audio API (Zero external sound assets)
+        class SoundFX {
+            constructor() {
+                this.ctx = null;
+            }
+            init() {
+                if (!this.ctx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    this.ctx = new AudioContext();
+                }
+                if (this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
+            }
+            playHeartbeat() {
+                try {
+                    this.init();
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(80, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(30, this.ctx.currentTime + 0.18);
+
+                    gain.gain.setValueAtTime(0.4, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.18);
+
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.18);
+                } catch(e) {}
+            }
+            playBoing() {
+                try {
+                    this.init();
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(300, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(800, this.ctx.currentTime + 0.2);
+
+                    gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.2);
+
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.2);
+                } catch(e) {}
+            }
+            playBuzzer() {
+                try {
+                    this.init();
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(140, this.ctx.currentTime);
+
+                    gain.gain.setValueAtTime(0.25, this.ctx.currentTime);
+                    gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.35);
+
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.35);
+                } catch(e) {}
+            }
+            playFanfare() {
+                try {
+                    this.init();
+                    const notes = [261.6, 329.6, 392.0, 523.25];
+                    notes.forEach((freq, idx) => {
+                        const osc = this.ctx.createOscillator();
+                        const gain = this.ctx.createGain();
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.1);
+                        gain.gain.setValueAtTime(0.2, this.ctx.currentTime + idx * 0.1);
+                        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + idx * 0.1 + 0.4);
+                        osc.connect(gain);
+                        gain.connect(this.ctx.destination);
+                        osc.start(this.ctx.currentTime + idx * 0.1);
+                        osc.stop(this.ctx.currentTime + idx * 0.1 + 0.4);
+                    });
+                } catch(e) {}
+            }
+        }
+
+        const sfx = new SoundFX();
+
+        // State
+        let userName = "";
+        let evadeCount = 0;
+        const maxEvades = 4;
+        const evadeTaunts = [
+            "بتجري ورا الاهتمام كده ليه؟ 🏃‍♂️",
+            "اهدى مش طايرة هيه 😂",
+            "هو الجري نص الجدعنة برضه؟ 🤔",
+            "خلاص هقف مكان اهو، دوس يا سيدي! 🛑"
+        ];
+
+        // DOM Elements
+        const stageHook = document.getElementById('stage-hook');
+        const stageLoading = document.getElementById('stage-loading');
+        const stageReveal = document.getElementById('stage-reveal');
+        const stageCert = document.getElementById('stage-certificate');
+
+        const userNameInput = document.getElementById('user-name');
+        const evasiveBtn = document.getElementById('evasive-btn');
+        const evadeBubble = document.getElementById('evade-bubble');
+        const btnPlayground = document.getElementById('button-playground');
+
+        const captchaModal = document.getElementById('captcha-modal');
+        const captchaContent = document.getElementById('captcha-content');
+        const captchaTiles = document.querySelectorAll('.captcha-tile');
+        const verifyCaptchaBtn = document.getElementById('verify-captcha-btn');
+        const captchaError = document.getElementById('captcha-error');
+
+        const progressStatus = document.getElementById('progress-status');
+        const progressFill = document.getElementById('progress-fill');
+        const progressPercent = document.getElementById('progress-percent');
+        const letterContent = document.getElementById('letter-content');
+        const claimCertBtn = document.getElementById('claim-cert-btn');
+
+        const certCanvas = document.getElementById('cert-canvas');
+        const saveImgBtn = document.getElementById('save-img-btn');
+        const shareLinkBtn = document.getElementById('share-link-btn');
+        const restartBtn = document.getElementById('restart-btn');
+
+        // Toast Helper
+        function showToast(message, icon = "💬") {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').textContent = message;
+            document.getElementById('toast-icon').textContent = icon;
+            toast.classList.remove('-translate-y-24', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            setTimeout(() => {
+                toast.classList.add('-translate-y-24', 'opacity-0');
+                toast.classList.remove('translate-y-0', 'opacity-100');
+            }, 3000);
+        }
+
+        // Floating Hearts Background generator
+        function createFloatingHearts() {
+            const container = document.getElementById('hearts-container');
+            const hearts = ['❤️', '💖', '💌', '🌸', '✨'];
+            for (let i = 0; i < 15; i++) {
+                const span = document.createElement('span');
+                span.className = 'heart-particle text-xl sm:text-2xl select-none';
+                span.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                span.style.left = `${Math.random() * 100}vw`;
+                span.style.animationDelay = `${Math.random() * 6}s`;
+                span.style.animationDuration = `${5 + Math.random() * 5}s`;
+                container.appendChild(span);
+            }
+        }
+        createFloatingHearts();
+
+        // Evasive Button Logic
+        function triggerEvade(e) {
+            if (evadeCount < maxEvades) {
+                // Check name first to build commitment
+                const entered = userNameInput.value.trim();
+                if (!entered) {
+                    showToast("اكتب اسمك الأول عشان نتأكد من هويتك! 🤨", "⚠️");
+                    userNameInput.focus();
+                    return;
+                }
+
+                sfx.playBoing();
+                evadeCount++;
+
+                // Compute bounding box within playground or screen
+                const bounds = btnPlayground.getBoundingClientRect();
+                const maxX = Math.min(130, bounds.width / 2 - 60);
+                const randomX = (Math.random() * 2 - 1) * maxX;
+                const randomY = (Math.random() * 40) - 20;
+
+                evasiveBtn.style.transform = `translate(${randomX}px, ${randomY}px) scale(0.96)`;
+
+                // Display taunt
+                evadeBubble.textContent = evadeTaunts[evadeCount - 1];
+                evadeBubble.style.opacity = '1';
+
+                // Prevent immediate click
+                if (e) e.preventDefault();
+            } else {
+                // 4th evade passed, let user click to open captcha
+                openCaptcha();
+            }
+        }
+
+        // Event listeners for Evasive action (Desktop hover + mobile touch tap)
+        evasiveBtn.addEventListener('mouseenter', (e) => {
+            if (evadeCount < maxEvades) {
+                triggerEvade(e);
+            }
+        });
+
+        evasiveBtn.addEventListener('click', (e) => {
+            if (evadeCount < maxEvades) {
+                triggerEvade(e);
+            } else {
+                openCaptcha();
+            }
+        });
+
+        // Captcha Modal Flow
+        function openCaptcha() {
+            userName = userNameInput.value.trim() || "صديقنا البائس";
+            evasiveBtn.style.transform = 'none';
+            captchaModal.classList.remove('hidden');
+            setTimeout(() => {
+                captchaModal.classList.remove('opacity-0');
+                captchaContent.classList.remove('scale-90');
+            }, 10);
+        }
+
+        // Toggle tile selection
+        captchaTiles.forEach(tile => {
+            tile.addEventListener('click', () => {
+                tile.classList.toggle('selected');
+                tile.classList.toggle('border-romance-500');
+                tile.classList.toggle('bg-romance-50');
+                const badge = tile.querySelector('.check-badge');
+                badge.classList.toggle('hidden');
+                sfx.playBoing();
+            });
+        });
+
+        // Verify Captcha logic
+        verifyCaptchaBtn.addEventListener('click', () => {
+            const selectedTiles = Array.from(captchaTiles).filter(t => t.classList.contains('selected'));
+            
+            if (selectedTiles.length === 0) {
+                sfx.playBuzzer();
+                captchaError.textContent = "لازم تختار على الأقل حاجة واحدة بتحبك بجد!";
+                captchaError.classList.remove('hidden');
+                return;
+            }
+
+            // Checks: Only Food and Sleep items are valid (حواوشي، بطانية، شاي بلبن، كيس شيبسي)
+            const hasInvalid = selectedTiles.some(t => t.getAttribute('data-valid') === 'false');
+            const validSelectedCount = selectedTiles.filter(t => t.getAttribute('data-valid') === 'true').length;
+
+            if (hasInvalid) {
+                sfx.playBuzzer();
+                captchaError.textContent = "القطط والشاشات بتستغلك عشان وقتك وأكلك بس.. ركّز في الأكل والبطانية!";
+                captchaError.classList.remove('hidden');
+                return;
+            }
+
+            if (validSelectedCount < 2) {
+                sfx.playBuzzer();
+                captchaError.textContent = "لسه مش حاسس بدفء الأكل والسرير؟ اختار حاجتين على الأقل من اللي بيحبوك فعلاً!";
+                captchaError.classList.remove('hidden');
+                return;
+            }
+
+            // Correct! Proceed to Stage 3
+            captchaError.classList.add('hidden');
+            captchaModal.classList.add('opacity-0');
+            setTimeout(() => {
+                captchaModal.classList.add('hidden');
+                startDramaticLoading();
+            }, 300);
+        });
+
+        // Stage 3: Dramatic Fake Loading Bar
+        function startDramaticLoading() {
+            stageHook.classList.add('hidden');
+            stageLoading.classList.remove('hidden');
+
+            const steps = [
+                { text: "جاري فحص سجل المكالمات بحثاً عن أي بني آدم سأل عليك...", progress: 20 },
+                { text: "جاري مسح الـ DMs بحثاً عن مسجات غير بتاعة فودافون وأورنچ...", progress: 48 },
+                { text: "استنى.. لقينا حاجة! لا ده طلع كود خصم صيني 🥢", progress: 78 },
+                { text: "فشل الفحص: نسبة الاهتمام المسجلة 0.00% 💔", progress: 100 }
+            ];
+
+            let currentStep = 0;
+
+            // Heartbeat audio pulse timer
+            const heartInterval = setInterval(() => {
+                sfx.playHeartbeat();
+            }, 600);
+
+            function updateProgress() {
+                if (currentStep < steps.length) {
+                    const step = steps[currentStep];
+                    progressStatus.textContent = step.text;
+                    progressFill.style.width = step.progress + '%';
+                    progressPercent.textContent = step.progress + '%';
+                    currentStep++;
+                    setTimeout(updateProgress, 1900);
+                } else {
+                    clearInterval(heartInterval);
+                    setTimeout(showRevealStage, 900);
+                }
+            }
+
+            updateProgress();
+        }
+
+        // Stage 4: Reveal Stage (The Letter)
+        function showRevealStage() {
+            stageLoading.classList.add('hidden');
+            stageReveal.classList.remove('hidden');
+            sfx.playBoing();
+
+            // Populate personalized satirical text strictly matching prompt
+            letterContent.innerHTML = `
+                "عزيزي <span class="text-romance-600 font-black">${userName}</span>، بمناسبة 11/11، حابين نفكرك إن باقة النت بتاعتك خلصت، وإن الشخص الوحيد اللي مهتم بوجودك هو بتاع السوبر ماركت علشان انت واكل عليه 2 جنيه.. بتمنى لك نومة دافية تحت البطانية، لأن مفيش حد بيحبك في السر، ولو حد مهتم كان نطق من 2020. قوم نام."
+            `;
+        }
+
+        claimCertBtn.addEventListener('click', () => {
+            sfx.playFanfare();
+            stageReveal.classList.add('hidden');
+            stageCert.classList.remove('hidden');
+            renderCertificate();
+        });
+
+        // Stage 5: Render Canvas Certificate
+        function renderCertificate() {
+            const ctx = certCanvas.getContext('2d');
+            const w = certCanvas.width;
+            const h = certCanvas.height;
+
+            // Background paper gradient
+            const grad = ctx.createLinearGradient(0, 0, w, h);
+            grad.addColorStop(0, '#fffbf0');
+            grad.addColorStop(1, '#ffedd5');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, w, h);
+
+            // Vintage borders
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 10;
+            ctx.strokeRect(20, 20, w - 40, h - 40);
+
+            ctx.strokeStyle = '#e11d48';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(32, 32, w - 64, h - 64);
+
+            // Header Icon
+            ctx.textAlign = 'center';
+            ctx.font = '54px sans-serif';
+            ctx.fillText('📜', w / 2, 110);
+
+            // Title
+            ctx.fillStyle = '#0f172a';
+            ctx.font = '900 48px Cairo, sans-serif';
+            ctx.fillText('شهادة صمود 11/11', w / 2, 180);
+
+            // Subtitle
+            ctx.fillStyle = '#be123c';
+            ctx.font = '800 30px Cairo, sans-serif';
+            ctx.fillText(`تُمنح لـ: ${userName}`, w / 2, 240);
+
+            // Divider Line
+            ctx.strokeStyle = '#cbd5e1';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(100, 280);
+            ctx.lineTo(w - 100, 280);
+            ctx.stroke();
+
+            // Field: التصنيف
+            ctx.fillStyle = '#475569';
+            ctx.font = '700 24px Cairo, sans-serif';
+            ctx.fillText('التصنيف المعتمد:', w / 2, 330);
+
+            ctx.fillStyle = '#dc2626';
+            ctx.font = '900 32px Cairo, sans-serif';
+            ctx.fillText('جفاف عاطفي من الدرجة الرابعة 🌵', w / 2, 380);
+
+            // Field: الحالة (Multiline wrap)
+            ctx.fillStyle = '#475569';
+            ctx.font = '700 24px Cairo, sans-serif';
+            ctx.fillText('تقرير الحالة الميدانية:', w / 2, 450);
+
+            ctx.fillStyle = '#1e293b';
+            ctx.font = '700 23px Cairo, sans-serif';
+            ctx.fillText('قضى اليوم كامل بدون أي رسالة، معتمداً كلياً', w / 2, 500);
+            ctx.fillText('على التعفن الدماغي والنوم بعد الفجر.', w / 2, 540);
+
+            // Decorative Quote
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = 'italic 700 19px Cairo, sans-serif';
+            ctx.fillText('«لو كان حد مهتم بيك، كان نطق قبل ما السنة تخلص!»', w / 2, 620);
+
+            // Official Stamp (Rubber Stamp style)
+            ctx.save();
+            ctx.translate(w / 2, 750);
+            ctx.rotate(-8 * Math.PI / 180);
+
+            ctx.strokeStyle = '#b91c1c';
+            ctx.lineWidth = 5;
+            ctx.beginPath();
+            ctx.ellipse(0, 0, 190, 75, 0, 0, 2 * Math.PI);
+            ctx.stroke();
+
+            ctx.fillStyle = '#b91c1c';
+            ctx.font = '900 22px Cairo, sans-serif';
+            ctx.fillText('★ مُعتمد رسمياً ★', 0, -25);
+            ctx.font = '800 17px Cairo, sans-serif';
+            ctx.fillText('وزارة البطاطين والشاي بلبن', 0, 8);
+            ctx.font = '700 15px Cairo, sans-serif';
+            ctx.fillText('قطاع مكافحة المحن 2026', 0, 38);
+
+            ctx.restore();
+
+            // Watermark timestamp at bottom
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '600 14px Cairo, sans-serif';
+            ctx.fillText('كود التوثيق: DRY-1111-FOREVER • صالح حتى 11/11 القادم', w / 2, 875);
+        }
+
+        // Save Image Button
+        saveImgBtn.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = `شهادة_صمود_${userName}_11_11.png`;
+            link.href = certCanvas.toDataURL('image/png');
+            link.click();
+            showToast("تم تنزيل الشهادة! شيرها في الستوري وفرحنا بيك 📸", "🎉");
+        });
+
+        // Share Troll Link
+        shareLinkBtn.addEventListener('click', () => {
+            const shareText = `في شخص مسجل رقمك بعتلك رسالة سرية بمناسبة 11/11 ومستنيك تفتحها 💌👀 ادخل شوفها من هنا: ${window.location.href}`;
+            
+            const tempInput = document.createElement('textarea');
+            tempInput.value = shareText;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            showToast("تم نسخ رابط المقلب! ابعته لصحابك في جروب الواتساب 😈", "📋");
+        });
+
+        // Restart with fresh state
+        restartBtn.addEventListener('click', () => {
+            evadeCount = 0;
+            userNameInput.value = "";
+            evaseBtnReset();
+            captchaTiles.forEach(tile => {
+                tile.classList.remove('selected', 'border-romance-500', 'bg-romance-50');
+                tile.querySelector('.check-badge').classList.add('hidden');
+            });
+            stageCert.classList.add('hidden');
+            stageHook.classList.remove('hidden');
+        });
+
+        function evaseBtnReset() {
+            evasiveBtn.style.transform = 'none';
+            evadeBubble.style.opacity = '0';
+        }
+
+        // Ensure canvas re-renders clearly if fonts load after initial render
+        window.addEventListener('load', () => {
+            if (document.fonts) {
+                document.fonts.ready.then(() => {
+                    if (!stageCert.classList.contains('hidden')) {
+                        renderCertificate();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

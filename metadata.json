@@ -1,0 +1,6 @@
+{
+  "name": "11/11 Secret Message - رسالة 11/11 السرية",
+  "description": "لعبة وتجربة ساخرة تفاعلية بمناسبة 11/11 للسناجل مع فحص المشاعر وشهادة صمود قابلة للتحميل والمشاركة.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
